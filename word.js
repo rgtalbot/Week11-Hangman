@@ -5,7 +5,6 @@ var regEx = /[a-z]|[0-9]/i;
 function Word(target) {
     this.target = target;
     this.targetWord = target.toUpperCase().split('');
-    this.displayWord = this.generateDisplayWord();
 
     this.generateDisplayWord = function() {
 
@@ -23,6 +22,7 @@ function Word(target) {
 
         return wordArray;
     };
+    this.displayWord = this.generateDisplayWord();
 
     this.checkLetterInput = function(letter) {
 
@@ -52,6 +52,7 @@ function Word(target) {
                 display += this.displayWord[index];
             }
         }
+        return display;
     }
 
 }

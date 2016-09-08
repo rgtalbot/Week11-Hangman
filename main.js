@@ -9,6 +9,7 @@ function initHangman() {
 }
 
 function promptAndProcessInput() {
+    console.log(game.word.getDisplayWord());
     inquirer.prompt([
         {
             type: 'input',
@@ -19,13 +20,17 @@ function promptAndProcessInput() {
                 var validInputs = /[a-z]|[0-9]/i;
 
                 //validate already guessed here!!
-                if (value.length === 1 && validInput.test(value))
+                if (value.length === 1 && validInputs.test(value)) {
+
                     return true;
 
-                return 'Please enter a valid guess (letter a-z or number 0-9:';
+                } else {
+                    console.log('fail');
+                    return 'Please enter a valid guess (letter a-z or number 0-9:';
+                }
             }
         }
-    ]).then(function(answer) {
+    ]).then(function (answer) {
 
         var userGuess = answer.userGuess.toUpperCase();
 
@@ -36,17 +41,18 @@ function promptAndProcessInput() {
             var correct = game.word.checkLetterInput(userGuess);
 
             if (correct) {
-                game.printResults(" Your guess was right! ");
+                game.printResults("correct");
             } else {
                 game.livesRemaining--;
-                game.printResults(" WRONG ");
+                game.printResults("wrong");
             }
 
         } else {
-            game.printResults("Already Guessed!");
+            game.printResults("already");
         }
 
         var userWon = game.word.getDisplayWord() === game.word.getTargetWord();
+        console.log(userWon);
 
         if (userWon) {
             game.wins++;
@@ -60,6 +66,26 @@ function promptAndProcessInput() {
 
     });
 }
+
+function endCurrentGame(str) {
+    if (str === 'YOU WON') {
+        console.log(game.wins);
+        inquirer.prompt([
+            {
+                type: 'list',
+                name: 'response',
+                message: 'play again?',
+                choices: ['yes', 'no']
+            }
+        ]).then(function(choice) {
+            if (choice.response == 'yes')
+                initHangman();
+            else if (choice.response == 'no')
+                console.log('thanks for playing');
+        });
+    }
+}
+
 
 //APPLICATION GO!
 initHangman();
