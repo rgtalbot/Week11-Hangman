@@ -4,7 +4,7 @@ function Letter(character) {
     this.placeholder = "_";
     this.guessed = false;
 
-    this.getCharacter = function() {
+    this.getCharacter = function () {
 
         var char = ' ';
 

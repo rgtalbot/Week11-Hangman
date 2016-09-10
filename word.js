@@ -6,14 +6,14 @@ function Word(target) {
     this.target = target;
     this.targetWord = target.toUpperCase().split('');
 
-    this.generateDisplayWord = function() {
+    this.generateDisplayWord = function () {
 
         var wordArray = [];
 
-        for ( var i = 0; i < this.target.length; i++ ) {
+        for (var i = 0; i < this.target.length; i++) {
 
-            if ( regEx.test(this.target[i]) ) {
-                wordArray.push( new Letter(this.target[i].toUpperCase()) );
+            if (regEx.test(this.target[i])) {
+                wordArray.push(new Letter(this.target[i].toUpperCase()));
             } else {
                 wordArray.push(this.target[i])
             }
@@ -24,12 +24,12 @@ function Word(target) {
     };
     this.displayWord = this.generateDisplayWord();
 
-    this.checkLetterInput = function(letter) {
+    this.checkLetterInput = function (letter) {
 
         var isCorrect = false;
 
         for (var index in this.targetWord) {
-            if (letter.toUpperCase() === this.targetWord[index] ) {
+            if (letter.toUpperCase() === this.targetWord[index]) {
                 this.displayWord[index].guessed = true;
                 isCorrect = true;
             }
@@ -38,15 +38,15 @@ function Word(target) {
         return isCorrect;
     };
 
-    this.getTargetWord = function() {
+    this.getTargetWord = function () {
         return this.targetWord.join('');
     };
 
-    this.getDisplayWord = function() {
+    this.getDisplayWord = function () {
         var display = '';
 
         for (var index in this.displayWord) {
-            if( regEx.test( this.displayWord[index]  ) ) {
+            if (regEx.test(this.displayWord[index])) {
                 display += this.displayWord[index].getCharacter();
             } else {
                 display += this.displayWord[index];

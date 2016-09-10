@@ -4,6 +4,7 @@
   "description": "node hangman game",
   "main": "main.js",
   "dependencies": {
+    "clear": "0.0.1",
     "inquirer": "^1.1.3"
   },
   "devDependencies": {},

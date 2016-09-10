@@ -1,4 +1,5 @@
 var inquirer = require('inquirer');
+var clear = require('clear');
 
 var Game = require('./game.js');
 var game = new Game();
@@ -10,6 +11,7 @@ function initHangman() {
 
 function promptAndProcessInput() {
     console.log(game.word.getDisplayWord());
+
     inquirer.prompt([
         {
             type: 'input',
@@ -33,7 +35,7 @@ function promptAndProcessInput() {
     ]).then(function (answer) {
 
         var userGuess = answer.userGuess.toUpperCase();
-
+        clear();
         if (game.lettersUsed.indexOf(userGuess) === -1) {
 
             game.lettersUsed.push(userGuess);
@@ -52,14 +54,15 @@ function promptAndProcessInput() {
         }
 
         var userWon = game.word.getDisplayWord() === game.word.getTargetWord();
-        console.log(userWon);
 
         if (userWon) {
             game.wins++;
+            clear();
             endCurrentGame('YOU WON');
         } else if (game.livesRemaining > 0) {
             promptAndProcessInput();
         } else {
+            clear();
             game.losses++;
             endCurrentGame('YOU LOST');
         }
@@ -69,21 +72,34 @@ function promptAndProcessInput() {
 
 function endCurrentGame(str) {
     if (str === 'YOU WON') {
-        console.log(game.wins);
-        inquirer.prompt([
-            {
-                type: 'list',
-                name: 'response',
-                message: 'play again?',
-                choices: ['yes', 'no']
-            }
-        ]).then(function(choice) {
-            if (choice.response == 'yes')
-                initHangman();
-            else if (choice.response == 'no')
-                console.log('thanks for playing');
-        });
+        console.log("YOU ARE A WINNER!");
+        console.log("# of wins: " + game.wins);
+        console.log("# of losses: " + game.losses);
+    } else if (str === "YOU LOST") {
+        console.log("SORRY YOU LOST");
+        console.log("The Correct Answer Was: " + game.word.getTargetWord());
+        console.log("# of wins: " + game.wins);
+        console.log("# of losses: " + game.losses);
     }
+
+
+    inquirer.prompt([
+        {
+            type: 'list',
+            name: 'response',
+            message: 'play again?',
+            choices: ['yes', 'no']
+        }
+    ]).then(function (choice) {
+        if (choice.response == 'yes') {
+            clear();
+            initHangman();
+        } else if (choice.response == 'no') {
+            clear();
+            game.endGame();
+        }
+    });
+
 }
 
 
