@@ -1,7 +1,9 @@
 var Word = require('./word.js');
 
+//word bank of guesses
 var wordBank = ['JavaScript', 'AngularJS', 'Python', 'Ruby on Rails', 'Swift', 'Bootstrap', 'Node.js'];
 
+//creating a new game
 function Game() {
     this.wins = 0;
     this.losses = 0;
@@ -9,6 +11,7 @@ function Game() {
     this.lettersUsed = [];
     this.word = "";
 
+    //start new game function
     this.startNewGame = function () {
         this.livesRemaining = 10;
         this.lettersUsed = [];
@@ -20,11 +23,13 @@ function Game() {
         console.log('------ PRESS ANY LETTER OR NUMBER AND HIT ENTER TO PLAY ------');
     };
 
+    //generates random word to string
     this.generateRandomWord = function () {
         var randomWord = wordBank[Math.floor(Math.random() * wordBank.length)];
         return new Word(randomWord);
     };
 
+    //what to console log based on what is sent over from main.js
     this.printResults = function (str) {
 
 
@@ -48,7 +53,7 @@ function Game() {
 
     };
 
-
+    // end game function if the user no logner wants to play
     this.endGame = function () {
         console.log('thanks for playing');
         console.log('TOTAL WINS: ' + game.wins);

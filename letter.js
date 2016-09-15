@@ -1,3 +1,4 @@
+//letter constructor for displaying the letters
 function Letter(character) {
 
     this.character = character;

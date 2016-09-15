@@ -1,17 +1,22 @@
+//npm packages requried
 var inquirer = require('inquirer');
 var clear = require('clear');
-
 var Game = require('./game.js');
 var game = new Game();
 
+
+// starts the game
 function initHangman() {
     game.startNewGame();
     promptAndProcessInput();
 }
 
+
+// prompts them and check the input
 function promptAndProcessInput() {
     console.log(game.word.getDisplayWord());
 
+    //prompt the user to guess a letter
     inquirer.prompt([
         {
             type: 'input',
@@ -34,14 +39,17 @@ function promptAndProcessInput() {
         }
     ]).then(function (answer) {
 
+        //compare user guess to the answer
         var userGuess = answer.userGuess.toUpperCase();
         clear();
+
         if (game.lettersUsed.indexOf(userGuess) === -1) {
 
             game.lettersUsed.push(userGuess);
 
             var correct = game.word.checkLetterInput(userGuess);
 
+            //if correct or incorrect run the print results function
             if (correct) {
                 game.printResults("correct");
             } else {
@@ -50,11 +58,14 @@ function promptAndProcessInput() {
             }
 
         } else {
+            //already guessed//
             game.printResults("already");
         }
 
         var userWon = game.word.getDisplayWord() === game.word.getTargetWord();
 
+
+        //check to suee if user wom
         if (userWon) {
             game.wins++;
             clear();
@@ -70,6 +81,7 @@ function promptAndProcessInput() {
     });
 }
 
+// end game function
 function endCurrentGame(str) {
     if (str === 'YOU WON') {
         console.log("YOU ARE A WINNER!");
@@ -82,7 +94,7 @@ function endCurrentGame(str) {
         console.log("# of losses: " + game.losses);
     }
 
-
+//play again question
     inquirer.prompt([
         {
             type: 'list',
